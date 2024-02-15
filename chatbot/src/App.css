@@ -1,0 +1,52 @@
+.c-chat {
+    width: 90%;
+    margin: 0 auto;
+    padding: 1em;
+    max-width: 500px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.c-chat__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.c-chat__item {
+    margin-bottom: 10px;
+}
+
+.c-chat__message {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.c-chat__action {
+    color: blue;
+    text-decoration: underline;
+    margin-right: 10px;
+}
+
+.c-chat__form {
+    margin-top: 10px;
+}
+
+.c-chat__form input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.c-chat__form input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.c-chat__form input[type="submit"] {
+    display: none;
+}
