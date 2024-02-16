@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const initialMessages = [
-    {
-        author: "loading",
-        body: "...",
-        timeout: 0
-    },
+const Messages = [
+    // {
+    //     author: "loading",
+    //     body: "...",
+    //     timeout: 0
+    // },
     {
         author: "bot",
         body: "Hello",
@@ -15,10 +15,11 @@ const initialMessages = [
     {
         author: "bot",
         body: "How may I help you?",
-        timeout: 1000
+        timeout: 1500
     },
     {
         author: "bot",
+        
         body: [
             {
                 url: "/blog/",
@@ -65,7 +66,7 @@ function App() {
     useEffect(() => {
         // Add initial messages when the component mounts
         if (chatMessages.length === 0) {
-            setChatMessages(initialMessages);
+            setChatMessages(Messages);
         }
     }, [chatMessages]); // Add chatMessages to the dependencies array to ensure useEffect runs only once
 
@@ -156,28 +157,54 @@ function App() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const inputValue = e.target.querySelector("input").value;
-
-        // Here, you would add the message the user typed
-
+    
+        // Create a new message object for the user's message
+        const userMessage = {
+            author: "human",
+            body: inputValue
+        };
+    
+        // Add the user's message just above the send message bar
+        setChatMessages([...chatMessages, userMessage]);
+    
+        // Scroll to the bottom to show the latest message just above the send message bar
+        scrollToBottom();
+        
         e.target.reset();
     };
-
+    
     return (
-        <div className="c-chat">
-            <ul className="c-chat__list">
-                {chatMessages.map((message, index) => (
-                    <Message key={index} data={message} handleClick={handleClick} />
-                ))}
-            </ul>
-            <form className="c-chat__form" onSubmit={handleSubmit}>
+        <div className="main-card">
+            <div className="main-title">
+                <div>
+                    <svg id="chatbot_toggle" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M64 128v256h128V128H64zm224 0v256h128V128H288z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <span className="title">Codestore-Chatbot</span>
+            </div>
+            <div className="line"></div>
+            <div className="chat-area">
+                <ul className="c-chat__list">
+                    {chatMessages.map((message, index) => (
+                        <Message key={index} data={message} handleClick={handleClick} />
+                    ))}
+                </ul>
+            </div>
+            <form className="input-div" onSubmit={handleSubmit}>
                 <input
                     type="text"
                     name="input"
+                    className="input-message"
                     placeholder="Type your message here..."
                     autoComplete="off"
                     required
                 />
-                <button type="submit">Send</button>
+                <button type="submit" className="input-send">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M490.2 232.7L61.8 4.5C55-1.4 45.3-.4 39.3 5.3c-6 5.7-6.8 14.8-1.1 20.8L443.5 255 38.2 486.9c-5.7 6-5 15.1 1.1 20.8 3.4 3.2 7.8 4.7 12.2 4.7 4.4 0 8.8-1.6 12.2-4.7l428.4-228.2c6.1-5.8 6.8-15 .9-20.8z" fill="currentColor"/>
+                    </svg>
+                </button>
             </form>
         </div>
     );
