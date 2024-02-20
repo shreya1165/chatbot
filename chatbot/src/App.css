@@ -285,6 +285,27 @@ body {
 /* form styling  */
 /* ContactForm.css */
 
+/* App.css */
+
+/* App.css */
+
+.close-button {
+  background-color: transparent;
+  color: #1B2032;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #eee;
+}
+
+
+
 .form-container {
   max-width: 400px;
   margin: 0 auto;
@@ -310,7 +331,7 @@ body {
 
 .form-container button[type="submit"] {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #1B2032;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -320,5 +341,15 @@ body {
 }
 
 .form-container button[type="submit"]:hover {
-  background-color: #0056b3;
+  background-color: #1B2032;
+}
+
+
+.chatbot-container {
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.chatbot-container.closed {
+    height: 0;
 }

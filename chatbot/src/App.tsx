@@ -34,7 +34,7 @@ const Messages: Message[] = [
                 options: [
                     { url: "/blog/", text: "Services" },
                     { url: "/Contact Details", text: "Contact Details" },
-                    { url: "https://github.com/onefastsnail", text: "Something else" }
+                    // { url: "https://github.com/onefastsnail", text: "Something else" }
                 ]
             }
         ],
@@ -53,6 +53,8 @@ interface MessageProps {
 const Message: React.FC<MessageProps> = ({ data, handleClick }) => {
     const { author, body } = data;
 
+    
+
     let finalBody: JSX.Element | JSX.Element[];
     let avatarImageSrc = '';
 
@@ -61,6 +63,8 @@ const Message: React.FC<MessageProps> = ({ data, handleClick }) => {
     } else {
         avatarImageSrc = 'images/user.png'; // Path to the user's avatar image
     }
+
+    
 
     if (Array.isArray(body)) {
         finalBody = body.map((item, index) => {
@@ -130,17 +134,14 @@ const App: React.FC = () => {
         }, index * 300);
     };
 
+    console.log(chatMessages)
+
     const handleClick = (option: MessageBody) => {
         switch (option.text) {
-
-
             case "Contact Details":
                 toggleContactForm(); // Toggle the contact form
                 break;
-
-
             case "Services":
-                // Send user message indicating their choice
                 const userMessage: Message = {
                     author: "user",
                     body: "Services",
@@ -148,158 +149,127 @@ const App: React.FC = () => {
                 };
                 handleMessageDisplay(userMessage, chatMessages.length);
     
-                // Send bot message introducing services
                 const servicesMessage: Message = {
                     author: "bot",
-                    body: "Great, these are the services we provide:",
-                    
-                    timeout: 0
-                };
-                handleMessageDisplay(servicesMessage, chatMessages.length + 1);
-    
-                // Send bot message with service options
-                const serviceOptionsMessage: Message = {
-                    author: "bot",
                     body: [
-                        { text: "Web Development", url: "/web-development" },
-                        { text: "App Development", url: "/app-development" },
-                        { text: "UI/UX Design", url: "/ui-ux" }
+                        {
+                            text: "Great, these are the services we provide:",
+                            options: [
+                                { url: "/blog/", text: "Web Development" },
+                                { url: "/Contact Details", text: "App Development" },
+                                { url: "/Contact Details", text: "UI/UX Design" },
+                            ]
+                        }
                     ],
                     timeout: 0
                 };
-                handleMessageDisplay(serviceOptionsMessage, chatMessages.length + 2);
-                    
+                handleMessageDisplay(servicesMessage, chatMessages.length + 1);
+                break;
+            case "Web Development":
+                const webDevelopmentMessage: Message = {
+                    author: "user",
+                    body: "Web Development",
+                    timeout: 0
+                };
+                handleMessageDisplay(webDevelopmentMessage, chatMessages.length);
     
-                            
-                            break;
-                                            case "Web Development":
-                                                setChatMessages([
-                                                    ...chatMessages,
-                                                    {
-                                                        author: "bot",
-                                                        body: "Great, these are the services we provide:",
-                                                        timeout: 0 // Provide a default value if timeout is not meaningful
-                                                    },
-                                                    {
-                                                        author: "bot",
-                                                        body: [
-                                                            { text: "Web Development", url: "/web-development" },
-                                                            { text: "App Development", url: "/app-development" },
-                                                            { text: "UI/UX Design", url: "/ui-ux" }
-                                                        ],
-                                                        timeout: 0 // Provide a default value if timeout is not meaningful
-                                                    }
-                                                ]);
-                                                case "Web Development":
-                                                    setChatMessages([
-                                                        ...chatMessages,
-                                                        {
-                                                            author: "bot",
-                                                            body: <span dangerouslySetInnerHTML={{ __html: "Web development: CodeStore is a trusted web application development company that has been assisting businesses with the best technical talent for years to design and build custom websites and web applications for businesses across various industries. We combine creativity, innovation, and robust programming to provide custom web application development. For more details visit: <a href='https://codestoresolutions.com/web-application-development/'>Click here</a>" }} />,
-                                                            timeout: 0
-                                                        },
-                                                        {
-                                                            author: "bot",
-                                                            body: [
-                                                                { text: "Web Development", url: "/web-development" },
-                                                                { text: "App Development", url: "/app-development" },
-                                                                { text: "UI/UX Design", url: "/ui-ux" }
-                                                            ],
-                                                            timeout: 0
-                                                        }
-                                                    ]);
-                                                    break;
-                                                
-                                            case "App Development":
-                                                setChatMessages([
-                                                    ...chatMessages,
-                                                    {
-                                                        author: "bot",
-                                                        body: <span dangerouslySetInnerHTML={{ __html: "App development: We are one of the leading mobile application development companies in India and work extensively with businesses across various industries to build custom mobile applications to cater to business requirements. We understand the importance of having a robust mobile presence in today’s digital landscape and can create high-quality, user-friendly mobile apps for our clients across the globe. For more details visit: <a href='https://codestoresolutions.com/mobile-application-development/'>Click here</a>" }} />,
-                                                        timeout: 0 // Add timeout property as required by the Message interface
-                                                    },
-                                                    {
-                                                        author: "bot",
-                                                        body: [
-                                                            { text: "Web Development", url: "/web-development" },
-                                                            { text: "App Development", url: "/app-development" },
-                                                            { text: "UI/UX Design", url: "/ui-ux" }
-                                                        ],
-                                                        timeout: 0 // Add timeout property as required by the Message interface
-                                                    }
-                                                ]);
-                                                
-                                                break;
-                                                case "UI/UX Design":
-                                                    setChatMessages([
-                                                        ...chatMessages,
-                                                        {
-                                                            author: "bot",
-                                                            body: <span dangerouslySetInnerHTML={{ __html: "UI/UX Design: CodeStore offers various UI/UX services designed to help businesses create engaging and user-friendly digital experiences.In today’s fast-paced and competitive digital landscape, creating a great user experience is crucial to the success of any website, app, or product. A great UI/UX design can help businesses engage users, improve brand loyalty and increase conversions. For more details visit: <a href='https://codestoresolutions.com/ui-ux-design/'>Click here</a>" }} />,
-                                                            timeout: 0 // Add timeout property as required by the Message interface
-                                                        },
-                                                        {
-                                                            author: "bot",
-                                                            body: [
-                                                                { text: "Web Development", url: "/web-development" },
-                                                                { text: "App Development", url: "/app-development" },
-                                                                { text: "UI/UX Design", url: "/ui-ux" }
-                                                            ],
-                                                            timeout: 0 // Add timeout property as required by the Message interface
-                                                        }
-                                                    ]);
-                                                    
-                            break;
-                            
-                        case "Contact Details":
-                            
-                        
-                            handleMessageDisplay({
-                                author: "bot",
-                                body: "Here are our contact details:",
-                                timeout: 0
-                            }, 0);
-                            const contactDetailsHTML = <span dangerouslySetInnerHTML={{ __html: "Email Sales – <br>sales@codestoresolutions.com; <br> Enquiries –<br> info@codestoresolutions.com;<br> Recruitment –<br> hr@codestoresolutions.com <br>  Phone: <br>USA +1 (213) 814-4265<br>India +91 95997 20600We typically respond to any inquiry within one business day.Click here to contact us: <a href='https://codestoresolutions.com/ui-ux-design/'>Click here</a>" }} />;
-                            handleMessageDisplay({
-                                author: "bot",
-                                body: contactDetailsHTML,
-                                timeout: 0
-                            }, 1);
-                            break;
-                        default:
-                            break;
-                    }
-            
+                const webDevelopmentResponse: Message = {
+                    author: "bot",
+                    body: "Web development: CodeStore is a trusted web application development company that has been assisting businesses with the best technical talent for years to design and build custom websites and web applications for businesses across various industries. We combine creativity, innovation, and robust programming to provide custom web application development. For more details visit: <a href='https://codestoresolutions.com/web-application-development/'>Click here</a>",
+                    timeout: 0
+                };
+                handleMessageDisplay(webDevelopmentResponse, chatMessages.length + 1);
+                break;
+            case "App Development":
+                const appDevelopmentMessage: Message = {
+                    author: "user",
+                    body: "App Development",
+                    timeout: 0
+                };
+                handleMessageDisplay(appDevelopmentMessage, chatMessages.length);
+    
+                const appDevelopmentResponse: Message = {
+                    author: "bot",
+                    body: "App development: We are one of the leading mobile application development companies in India and work extensively with businesses across various industries to build custom mobile applications to cater to business requirements. We understand the importance of having a robust mobile presence in today’s digital landscape and can create high-quality, user-friendly mobile apps for our clients across the globe. For more details visit: <a href='https://codestoresolutions.com/mobile-application-development/'>Click here</a>",
+                    timeout: 0
+                };
+                handleMessageDisplay(appDevelopmentResponse, chatMessages.length + 1);
+                break;
+            case "UI/UX Design":
+                const uiUxDesignMessage: Message = {
+                    author: "user",
+                    body: "UI/UX Design",
+                    timeout: 0
+                };
+                handleMessageDisplay(uiUxDesignMessage, chatMessages.length);
+    
+                const uiUxDesignResponse: Message = {
+                    author: "bot",
+                    body: "UI/UX Design: CodeStore offers various UI/UX services designed to help businesses create engaging and user-friendly digital experiences.In today’s fast-paced and competitive digital landscape, creating a great user experience is crucial to the success of any website, app, or product. A great UI/UX design can help businesses engage users, improve brand loyalty and increase conversions. For more details visit: <a href='https://codestoresolutions.com/ui-ux-design/'>Click here</a>",
+                    timeout: 0
+                };
+                handleMessageDisplay(uiUxDesignResponse, chatMessages.length + 1);
+                break;
+            default:
+                break;
+        }
     };
+    
+    
+
+    
 
 // Update the fetch URL in your frontend code to match the backend server's URL
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
     // Access the form data from the event target
     const formData = new FormData(e.currentTarget);
+    const userInput = formData.get('input') as string;
 
-    try {
-        // Make an asynchronous request to submit the form data to the backend
-        const response = await fetch('http://localhost:5000/api/contact', { // Update the URL to match your backend server's URL
-            method: 'POST', // Or 'PUT', 'PATCH', etc. depending on your backend API
-            body: formData
-        });
+    // Create a bot response based on user input
+    let botResponse: Message;
 
-        if (response.ok) {
-            // If the response status is OK (2xx), you can handle it accordingly
-            console.log('Form submitted successfully');
-            // Optionally, you can reset the form fields or perform any other actions upon successful submission
-        } else {
-            // If the response status is not OK, handle the error
-            console.error('Failed to submit form:', response.statusText);
-            // Optionally, you can display an error message to the user or take other corrective actions
-        }
-    } catch (error) {
-        // If an error occurs during the fetch operation, handle it here
-        console.error('An error occurred while submitting the form:', error);
-        // Optionally, you can display an error message to the user or take other corrective actions
+    switch (userInput.toLowerCase()) {
+        case 'hi':
+            botResponse = {
+                author: 'bot',
+                body: 'Hi ',
+                timeout: 0
+            };
+            break;
+            case 'bye':
+            botResponse = {
+                author: 'bot',
+                body: 'Bye, See you soon',
+                timeout: 0
+            };
+            break;
+
+            
+        // Add more cases for different user inputs and their corresponding bot responses here
+        default:
+            botResponse = {
+                author: 'bot',
+                body: "I'm sorry, I didn't understand that.",
+                timeout: 0
+            };
+            break;
     }
+
+    // Add the user's message to the chat
+    const userMessage: Message = {
+        author: 'user',
+        body: userInput,
+        timeout: 0
+    };
+
+    // Display the user's message and the bot's response
+    handleMessageDisplay(userMessage, chatMessages.length);
+    handleMessageDisplay(botResponse, chatMessages.length + 1);
+
+    // Clear the input field after submission
+    e.currentTarget.reset();
 };
 
     
