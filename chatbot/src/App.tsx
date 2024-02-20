@@ -30,7 +30,7 @@ const Messages: Message[] = [
         author: "bot",
         body: [
             {
-                text: "Hello\nHow may I help you?",
+                text: "How may I help you?",
                 options: [
                     { url: "/blog/", text: "Services" },
                     { url: "/Contact Details", text: "Contact Details" },
@@ -53,24 +53,24 @@ interface MessageProps {
 const Message: React.FC<MessageProps> = ({ data, handleClick }) => {
     const { author, body } = data;
 
-    
-
     let finalBody: JSX.Element | JSX.Element[];
     let avatarImageSrc = '';
+    let messageClass = '';
 
     if (author === 'bot') {
         avatarImageSrc = 'images/chatbot.png'; // Path to the bot's avatar image
+        messageClass = 'c-chat__item--bot'; // Apply class for bot messages
     } else {
         avatarImageSrc = 'images/user.png'; // Path to the user's avatar image
+        messageClass = 'c-chat__item--user'; // Apply class for user messages
     }
-
-    
 
     if (Array.isArray(body)) {
         finalBody = body.map((item, index) => {
             if (item.options) {
                 return (
                     <div key={index}>
+                        <div class="c-chat__container">
                         <div className="c-chat__message">{item.text}</div>
                         <div>
                             {item.options.map((option, optionIndex) => (
@@ -78,6 +78,7 @@ const Message: React.FC<MessageProps> = ({ data, handleClick }) => {
                                     {option.text}
                                 </a>
                             ))}
+                        </div>
                         </div>
                     </div>
                 );
@@ -94,10 +95,10 @@ const Message: React.FC<MessageProps> = ({ data, handleClick }) => {
     }
 
     return (
-        <li className={"c-chat__item c-chat__item--" + author}>
-            <img src={avatarImageSrc} alt="Avatar" className="avatar" />
-            <div className="message-content">{finalBody}</div>
-        </li>
+        <li className={"c-chat__item " + messageClass}>
+        <img src={avatarImageSrc} alt="Avatar" className="avatar" />
+        <div className="message-content">{finalBody}</div>
+    </li>
     );
 };
 

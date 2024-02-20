@@ -41,49 +41,68 @@ body {
     
 
       
-.c-chat__message {
-    display: inline-block;
-    background: #1B2032;
-    color: whitesmoke;
-    font-size: small;
-
-    padding: 0.6em;
-    border-radius: 10px;
-    border-top-left-radius: 0;
-    margin: 5px;
-        
-    animation-name: bounceIn;
-    animation-duration: 0.4s;
-    animation-fill-mode: both;
-    
-    .c-chat__item--human &{
-        /* background: #00ac92; */
-        color: #1B2032;
-        border-top-right-radius: 0;
-        border-top-left-radius: 10px;
-    }
-    
-}
-
-
-
-.c-chat__action {
-  padding: 2px 4px; /* Adjust padding as needed */
-  margin: 1px; /* Adjust margin as needed */
-  background-color: #1B2032; /* Button background color */
-  color: #ffffff; /* Button text color */
-  border: none;
-  font-size: small;
-  border-radius: 8px; /* Button border radius */
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Add transition for smooth hover effect */
-
-  /* Additional styles for hover state */
-  &:hover {
-      background-color: #606060; /* Adjust hover background color */
+    .c-chat__container {
+      background-color: #e6e6e6; /* Set the container background color to yellow */
+      padding: 10px; /* Adjust padding as needed */
+      border-radius: 15px; /* Adjust border radius as needed */
+      display: inline-block; /* Ensure the container wraps its content */
   }
+  
+  .c-chat__action {
+    padding: 5px; /* Adjust padding as needed */
+    margin-bottom: 5px; /* Adjust margin as needed */
+    background-color: #ffffff; /* Button background color */
+    color: #1B2032; /* Button text color */
+   
+    font-size: small;
+    border-radius: 8px; /* Button border radius */
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition for smooth hover effect */
+    display: block; /* Ensure each button appears in its own line */
 }
+
+
+.c-chat__item--user{
+  justify-content: flex-end;
+}
+
+.c-chat__item--user .message-content {
+  text-align: right; /* Aligns the text content of user messages to the right */
+}
+
+
+.chat-message-sent {
+  background-color: #222;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  align-self: flex-end; /* Aligns the message to the right side */
+  margin: 8px 16px 8px auto; /* Adjust margins for spacing */
+}
+
+
+  .c-chat__message {
+      display: inline-block;
+      background: #1B2032;
+      color: whitesmoke;
+      font-size: small;
+      padding: 0.6em;
+      border-radius: 10px;
+      border-top-left-radius: 0;
+      margin: 5px;
+      animation-name: bounceIn;
+      animation-duration: 0.4s;
+      animation-fill-mode: both;
+  }
+  
+  .c-chat__item--human & {
+      /* background: #00ac92; */
+      color: #1B2032;
+      border-top-right-radius: 0;
+      border-top-left-radius: 10px;
+  }
+  
 
 
 
@@ -165,13 +184,13 @@ body {
     margin: auto auto auto 15%;
   }
   .chat-area {
-    
     flex-grow: 1;
     overflow: auto;
     border-radius: 8px;
     padding: 16px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end; /* Align messages to the bottom (right side) */
   }
   .input-message {
     padding: 8px 48px 8px 16px;
@@ -205,31 +224,42 @@ body {
     display: flex;
   }
   
-  .chat-message-sent {
-    background-color: #222;
-    margin: 8px 16px 8px 64px;
-    padding: 8px 16px;
-    animation-name: fadeIn;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: 100ms;
-    color: black;
-    border-radius: 8px 8px 2px 8px;
-    background-color: #222;
-  }
-  
-  .chat-message-received {
-    background-color: white;
-    margin: 8px 64px 8px 16px;
-    padding: 8px 16px;
-    animation-name: fadeIn;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: 100ms;
-    color: black;
-    border-radius: 8px 8px 8px 2px;
-    background-color: lavender;
-  }
+/* Update the user and bot chat message classes */
+
+.chat-message-sent {
+  background-color: #222;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  align-self: flex-end; /* Aligns the message to the right side */
+  margin: 8px 16px 8px auto; /* Adjust margins for spacing */
+}
+
+
+.chat-message-received {
+  background-color: lavender;
+  margin: 8px auto 8px 16px;
+  padding: 8px 16px;
+  animation-name: fadeIn;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 100ms;
+  color: black;
+  border-radius: 8px;
+}
+
+/* Add flex display for chat message divs */
+
+.chat-message-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.chat-message-sent .avatar-container {
+  display: block; /* Show avatar for user messages */
+  margin-right: 100px; /* Adjust margin as needed */
+}
   
   @keyframes fadeIn {
     from {
@@ -273,8 +303,8 @@ body {
 }
 
 .avatar {
-    width: 35px; /* Adjust avatar width as needed */
-    height: 35px; /* Adjust avatar height as needed */
+    width: 30px; /* Adjust avatar width as needed */
+    height: 30px; /* Adjust avatar height as needed */
     border-radius: 50%;
 }
 
