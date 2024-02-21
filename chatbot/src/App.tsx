@@ -6,6 +6,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import './ContactForm.tsx';
+// import { SocketConnect } from "./socket";
+// import ChatWindow from './ChatWindow.js';
 import ContactForm from './ContactForm.tsx';
 
 
@@ -107,7 +109,11 @@ const App: React.FC = () => {
     const [chatMessages, setChatMessages] = useState<Message[]>([]);
     const chatAreaRef = useRef<HTMLDivElement>(null);
     
-
+    // return (
+    //     <div className="App">
+    //       <SocketConnect />
+    //     </div>
+    //   );
     
     const [showContactForm, setShowContactForm] = useState(false);
     const toggleContactForm = () => {
@@ -226,36 +232,108 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     // Access the form data from the event target
     const formData = new FormData(e.currentTarget);
-    const userInput = formData.get('input') as string;
+    const userInput = (formData.get('input') as string).toLowerCase();
 
     // Create a bot response based on user input
     let botResponse: Message;
+    
 
-    switch (userInput.toLowerCase()) {
-        case 'hi':
-            botResponse = {
-                author: 'bot',
-                body: 'Hi ',
-                timeout: 0
-            };
-            break;
-            case 'bye':
-            botResponse = {
-                author: 'bot',
-                body: 'Bye, See you soon',
-                timeout: 0
-            };
-            break;
+    if (userInput.includes('services')) {
+        botResponse = {
+            author: 'bot',
+            body: [
+                {
+                    text: "Great, these are the services we provide:",
+                    options: [
+                        { url: "/blog/", text: "Web Development" },
+                        { url: "/Contact Details", text: "App Development" },
+                        { url: "/Contact Details", text: "UI/UX Design" },
+                    ]
+                }
+            ],
+            timeout: 0
+        };
 
+
+
+    } else if (userInput.includes('help') ) {
+        botResponse = {
+            author: 'bot',
+            body: [
+                {
+                    text: "How may I help you?",
+                    options: [
+                        { url: "/blog/", text: "Services" },
+                        { url: "/Contact Details", text: "Contact Details" },
+                        // { url: "https://github.com/onefastsnail", text: "Something else" }
+                    ]
+                }
+            ],
+            timeout: 0
+        };
+
+    
+
+
+
+    } else if (userInput.includes('hello') || userInput.includes('hi') || userInput.includes('hey there')||userInput.includes('hey')) {
+        botResponse = {
+            author: 'bot',
+            body: 'Hi ',
+            timeout: 0
+        };
+    } else if (userInput.includes('bye') || userInput.includes('bbye') || userInput.includes('see u') || userInput.includes('thanks bbye')) {
+        botResponse = {
+            author: 'bot',
+            body: 'Bye, See you soon',
+            timeout: 0
+        };
+    } else if (userInput.includes('contact') ) {
+        botResponse = {
+            author: 'bot',
+            body: (
+                <div>
+                    We’d love to hear from you! You can contact us using the below form or given email ids or phone numbers. We typically respond to any inquiry within one business day. <br /><br />
+                    Email: <br />
+                    Sales – sales@codestoresolutions.com <br />
+                    Enquiries – info@codestoresolutions.com <br />
+                    Recruitment – hr@codestoresolutions.com <br /><br />
+                    Phone: <br />
+                    USA +1 (213) 814-4265 <br />
+                    India +91 95997 20600
+                </div>
+            ),
             
-        // Add more cases for different user inputs and their corresponding bot responses here
-        default:
-            botResponse = {
-                author: 'bot',
-                body: "I'm sorry, I didn't understand that.",
-                timeout: 0
-            };
-            break;
+                        timeout: 0
+        };
+
+
+    } else if (userInput.includes('healthcare')||userInput.includes('health care')||userInput.includes('health') ) {
+        botResponse = {
+            author: 'bot',
+            body: (
+                <div>
+                    Transform Healthcare IT with our cutting-edge software services. We build custom software solutions for the healthcare industry, meeting your geography’s regulations and compliances requirement. 
+                    <br />
+                    For more details, visit: <a href="https://codestoresolutions.com/healthcare-app-development/"style={{ color: 'white' }}>https://codestoresolutions.com/healthcare-app-development/</a>
+                </div>
+            ),
+            
+            
+                        timeout: 0
+        };
+
+
+
+
+        
+   
+    } else {
+        botResponse = {
+            author: 'bot',
+            body: "I'm sorry, I didn't understand that.",
+            timeout: 0
+        };
     }
 
     // Add the user's message to the chat
@@ -272,6 +350,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     // Clear the input field after submission
     e.currentTarget.reset();
 };
+
 
     
     

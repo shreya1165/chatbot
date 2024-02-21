@@ -3,18 +3,43 @@ import './App.css'; // Import the CSS file
 
 const ContactForm: React.FC = () => {
     const [showForm, setShowForm] = useState(true);
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Handle form submission and data storage
+
         const formData = new FormData(e.currentTarget);
-        const jsonData: {[key: string]: string} = {}; // Define jsonData as an object with string keys and values
+
+        // Create an object to store form data
+        const jsonData: { [key: string]: string } = {};
+
+        // Loop through form data and populate jsonData
         formData.forEach((value, key) => {
             jsonData[key] = value as string;
         });
+
+        let errors: { [key: string]: string } = {};
+
+        if (!jsonData.name?.trim()) {
+            errors.name = 'Name is required';
+        }
+        if (!jsonData.email?.trim()) {
+            errors.email = 'Email is required';
+        } else if (!/^\S+@\S+\.\S+$/.test(jsonData.email)) {
+            errors.email = 'Invalid email format';
+        }
+        if (!jsonData.message?.trim()) {
+            errors.message = 'Message is required';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            console.log(errors);
+            return;
+        }
+
         // Send data to backend
         try {
-            const response = await fetch('http://localhost:5000/api/contact', { // Corrected endpoint URL
+            const response = await fetch('http://localhost:5000/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,12 +47,10 @@ const ContactForm: React.FC = () => {
                 body: JSON.stringify(jsonData),
             });
             if (response.ok) {
-                // Handle success
                 console.log('Data submitted successfully');
-                // Assuming you want to hide the form after successful submission
-                setShowForm(false);
+                setFormSubmitted(true); // Set formSubmitted to true after successful submission
+                setTimeout(() => setShowForm(false), 2000); // Close form after 2 seconds
             } else {
-                // Handle failure
                 console.error('Failed to submit data');
             }
         } catch (error) {
@@ -47,15 +70,19 @@ const ContactForm: React.FC = () => {
     return (
         <div className="form-container">
             <button className="close-button" onClick={handleClose}>Close</button>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name:</label>
-                <input type="text" id="name" name="name" required />
-                <label htmlFor="email">Email:</label>
-                <input type="email" id="email" name="email" required />
-                <label htmlFor="message">Message:</label>
-                <textarea id="message" name="message" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
+            {!formSubmitted ? ( // Render the form if it has not been submitted
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="name">Name:</label>
+                    <input type="text" id="name" name="name" required />
+                    <label htmlFor="email">Email:</label>
+                    <input type="email" id="email" name="email" required />
+                    <label htmlFor="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            ) : (
+                <div className="success-message">Thanks for contacting, We typically respond to any inquiry within one business day</div>
+            )}
         </div>
     );
 };
